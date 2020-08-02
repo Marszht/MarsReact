@@ -27,9 +27,12 @@
  // 这个 组件里面的是 vdom
  export class Component {
   setAttribute(name, value) {
+    console.log(name)
     this[name] = value;
   }
   mountTo(parent) {
+    console.log(this);
+    console.log(parent);
     let vdom = this.render();
     vdom.mountTo(parent)
   }
@@ -41,8 +44,6 @@
  export const ToyReact = {
   createElement(type, attributes, ...children) {
     let element 
-    debugger;
-    console.log(type)
     if (typeof type === 'string') {
       element =  new ElementWrapper(type);
     } else {
@@ -51,6 +52,7 @@
     for (let name in attributes) {
       element.setAttribute(name, attributes[name]);
     }
+
     let insertChildren = (children) => {
       for (let child of children) {
         if (typeof children === 'object' && child instanceof Array) {
@@ -60,7 +62,6 @@
             child = String(child);
           }
           if (typeof child === 'string') {
-            console.log(child);
             child = new TextWrapper(child);
           }
         }
@@ -71,6 +72,7 @@
     return element;
   },
   render (vdom, element) {
+    console.log(vdom, element);
     vdom.mountTo(element);
   }
 }
